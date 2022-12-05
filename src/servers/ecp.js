@@ -15,7 +15,7 @@ import path from "path";
 const WebSocket = require('ws');
 const url = require('url');
 
-const DEBUG = false;
+const DEBUG = true;
 const ECPPORT = 8060;
 const SSDPPORT = 1900;
 const MAC = getMacAddress();
@@ -54,6 +54,7 @@ export function enableECP(mainWindow) {
     ecp.post("/keypress/:key", sendKeyPress);
     ecp.post("/keydown/:key", sendKeyDown);
     ecp.post("/keyup/:key", sendKeyUp);
+    ecp.post("/plugin_inspect", pluginInspect);
     if (DEBUG) {
         ecp.use((req, res, next) => {
             console.log(req.url, req.method, req.headers);
@@ -232,6 +233,11 @@ function sendKeyDown(req, res) {
 
 function sendKeyUp(req, res) {
     window.webContents.send("postKeyUp", req.params.key);
+    res.end();
+}
+
+function pluginInspect(req,res) {
+    window.webContents.send("saveScreenshot", req.params);
     res.end();
 }
 

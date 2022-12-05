@@ -33,7 +33,7 @@ let telnetEnabled = storage.getItem("telnetEnabled") || "false";
 ipcRenderer.send("telnetEnabled", telnetEnabled === "true");
 setServerStatus("Telnet", 8085, telnetEnabled === "true");
 // Web Installer Server 
-let installerEnabled = storage.getItem("installerEnabled") || "false";
+let installerEnabled = storage.getItem("installerEnabled") || "true";
 let installerPassword = storage.getItem("installerPassword") || "rokudev";
 let installerPort = storage.getItem("installerPort") || "80";
 ipcRenderer.send("installerEnabled", installerEnabled === "true", installerPassword, installerPort);

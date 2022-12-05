@@ -17,6 +17,8 @@ import { enableTelnet } from "./servers/telnet";
 import { createMenu } from "./menu/menuService"
 import createWindow from "./helpers/window";
 
+console.log('app', app.getPath("userData"));
+
 // Emulator Device Information Object
 const deviceInfo = {
     developerId: "emulator-dev-id", // Unique id to segregate registry among channels
