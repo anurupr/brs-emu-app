@@ -158,6 +158,7 @@ ipcRenderer.on("copyScreenshot", function(event) {
 });
 ipcRenderer.on("console", function(event, text, error) {
     if (error) {
+        console.log(text);
         console.error(text);
     } else {
         console.log(text);

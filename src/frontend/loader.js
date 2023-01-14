@@ -57,7 +57,7 @@ export function loadFile(filePath, fileData) {
         txts = [];
         source.push(this.result);
         paths.push({ url: `source/${fileName}`, id: 0, type: "source" });
-        clearDisplay();
+        //clearDisplay();
         notifyAll("loaded", currentChannel);
         runChannel();
     };
@@ -114,7 +114,7 @@ function openChannelZip(f) {
                                 }
                             }
                         }
-                        clearDisplay()
+                        //clearDisplay()
                         if (splash && splash.substr(0, 5) === "pkg:/") {
                             const splashFile = zip.file(splash.substr(5));
                             if (splashFile) {
@@ -337,7 +337,7 @@ function workerCallback(event) {
 // Restore emulator menu and terminate Worker
 export function closeChannel(reason) {
     clientLog(`------ Finished '${currentChannel.title}' execution [${reason}] ------`);
-    clearDisplay();
+    //clearDisplay();
     brsWorker.terminate();
     sharedArray[dataType.KEY] = 0;
     sharedArray[dataType.MOD] = 0;

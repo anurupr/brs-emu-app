@@ -149,6 +149,7 @@ export const deviceMenuTemplate = {
                 if (hasInstaller) {
                     disableInstaller(window);
                 } else {
+                    console.log('enable installer');
                     enableInstaller(window);
                 }
             }
