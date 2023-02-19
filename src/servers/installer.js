@@ -95,7 +95,6 @@ export function enableInstaller(window, customPort) {
             res.write(JSON.stringify({ msg: "" }));
             res.end();
             // console.log('req.headers', req.headers);
-            // console.log('req.body', req.body);
             // console.log('req', req);
             // const busboy = new Busboy({ headers: req.headers });
             // busboy.on("file", function(fieldname, file, filename, encoding, mimetype) {
