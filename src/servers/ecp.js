@@ -1,8 +1,8 @@
 import { app } from "electron";
-import { 
-    getChannelIds, 
-    getPackages, 
-    getRecentPackage, 
+import {
+    getChannelIds,
+    getPackages,
+    getRecentPackage,
     getRecentId,
     getRecentName,
     getRecentVersion
@@ -15,7 +15,7 @@ import path from "path";
 const WebSocket = require('ws');
 const url = require('url');
 
-const DEBUG = true;
+const DEBUG = false;
 const ECPPORT = 8060;
 const SSDPPORT = 1900;
 const MAC = getMacAddress();
@@ -27,7 +27,7 @@ let ssdp;
 
 export let isECPEnabled = false;
 export function initECP(deviceInfo) {
-    device = deviceInfo;    
+    device = deviceInfo;
 }
 export function enableECP(mainWindow) {
     window = mainWindow;
@@ -70,7 +70,7 @@ export function enableECP(mainWindow) {
         ssdp = new SSDP({
             location: {
                 port: ECPPORT,
-                path: "/",            
+                path: "/",
             },
             adInterval: 120000,
             ttl: 3600,
@@ -126,7 +126,7 @@ export function disableECP() {
         ssdp.stop();
     }
     isECPEnabled = false;
-    window.webContents.send("toggleECP", false);    
+    window.webContents.send("toggleECP", false);
 }
 
 // ECP-2 WebSocket API
@@ -136,7 +136,7 @@ function processRequest(ws, message) {
         let reply = "";
         let msg;
         try {
-            msg = JSON.parse(message);            
+            msg = JSON.parse(message);
         } catch (error) {
             console.warn("invalid ecp-2 message:", message);
             return;
@@ -361,11 +361,11 @@ function genAppsXml(encrypt) {
     const xml = xmlbuilder.create("apps");
     getPackages().forEach((value, index) => {
         xml.ele(
-            "app", 
-            {id: getRecentId(index), 
-                subtype: "sdka", 
-                type: "appl", 
-                version: getRecentVersion(index)}, 
+            "app",
+            {id: getRecentId(index),
+                subtype: "sdka",
+                type: "appl",
+                version: getRecentVersion(index)},
                 getRecentName(index)
         );
     });
@@ -381,7 +381,7 @@ function genAppIcon(appID, encrypt) {
         if (fs.existsSync(iconPath)) {
             image = fs.readFileSync(iconPath);
         }
-    } 
+    }
     if (image === undefined) {
         image = fs.readFileSync(path.join(__dirname, "images", "channel-icon.png"));
     }
@@ -394,11 +394,11 @@ function genActiveApp(encrypt) {
     const appMenu = app.applicationMenu;
     if (id && appMenu.getMenuItemById("close-channel").enabled) {
         xml.ele(
-            "app", 
-            {id: id, 
-                subtype: "sdka", 
-                type: "appl", 
-                version: getRecentVersion(0)}, 
+            "app",
+            {id: id,
+                subtype: "sdka",
+                type: "appl",
+                version: getRecentVersion(0)},
                 getRecentName(0)
         );
     } else {
@@ -415,7 +415,7 @@ function launchApp(appID) {
         let zip = getRecentPackage(index);
         if (zip) {
             window.webContents.send("fileSelected", [zip]);
-        }    
+        }
     } else {
         window.webContents.send("console", `ECP Launch: File not found! App Id=${appID}`, true);
     }
@@ -429,7 +429,7 @@ function getMacAddress() {
     const os = require('os');
     const ifaces = os.networkInterfaces();
     let mac = "";
-    Object.keys(ifaces).forEach(function (ifname) {   
+    Object.keys(ifaces).forEach(function (ifname) {
         if (mac !== "" ) {
             return;
         }
@@ -444,7 +444,7 @@ function getMacAddress() {
         mac = iface.mac;
         return;
       });
-    });   
+    });
     if (mac === "") {
         mac = "87:3e:aa:9f:77:70";
     }

@@ -1,5 +1,5 @@
 import { subscribeDisplay, drawBufferImage, drawSplashScreen, showDisplay, clearDisplay } from "./display";
-import { initSoundModule, addSound, resetSounds, playSound, stopSound, 
+import { initSoundModule, addSound, resetSounds, playSound, stopSound,
          pauseSound, resumeSound, setLoop, setNext, triggerWav, stopWav, addPlaylist } from "./sound";
 import { clientLog, clientWarning, clientException } from "./console";
 import { deviceData } from "./device";
@@ -57,7 +57,7 @@ export function loadFile(filePath, fileData) {
         txts = [];
         source.push(this.result);
         paths.push({ url: `source/${fileName}`, id: 0, type: "source" });
-        clearDisplay();
+        //clearDisplay();
         notifyAll("loaded", currentChannel);
         runChannel();
     };
@@ -72,12 +72,12 @@ export function loadFile(filePath, fileData) {
         sharedArray[dataType.IDX] = -1;
         resetSounds();
     }
-    clientLog(`Loading ${fileName}...`);    
+    clientLog(`Loading ${fileName}...`);
     if (fileExt === ".zip") {
         openChannelZip(fileData);
     } else {
         reader.readAsText(fileData);
-    }   
+    }
 }
 // Uncompress Zip and execute
 function openChannelZip(f) {
@@ -114,7 +114,7 @@ function openChannelZip(f) {
                                 }
                             }
                         }
-                        clearDisplay()
+                        //clearDisplay()
                         if (splash && splash.substr(0, 5) === "pkg:/") {
                             const splashFile = zip.file(splash.substr(5));
                             if (splashFile) {
@@ -186,7 +186,7 @@ function openChannelZip(f) {
                     srcId++;
                 } else if (
                     !zipEntry.dir &&
-                    (lcasePath === "manifest" || ext === "csv" || ext === "xml" 
+                    (lcasePath === "manifest" || ext === "csv" || ext === "xml"
                         || ext === "json" || ext === "txt" || ext == "ts")
                 ) {
                     assetPaths.push({ url: relativePath, id: txtId, type: "text" });
@@ -246,7 +246,7 @@ function openChannelZip(f) {
     );
 }
 // Execute Emulator Web Worker
-function runChannel() {    
+function runChannel() {
     showDisplay()
     if (currentChannel.running || brsWorker != undefined) {
         brsWorker.terminate();
@@ -337,7 +337,7 @@ function workerCallback(event) {
 // Restore emulator menu and terminate Worker
 export function closeChannel(reason) {
     clientLog(`------ Finished '${currentChannel.title}' execution [${reason}] ------`);
-    clearDisplay();
+    //clearDisplay();
     brsWorker.terminate();
     sharedArray[dataType.KEY] = 0;
     sharedArray[dataType.MOD] = 0;

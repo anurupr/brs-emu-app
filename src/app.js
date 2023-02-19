@@ -24,7 +24,7 @@ const mainWindow = remote.getCurrentWindow();
 const display = document.getElementById("display");
 const storage = window.localStorage;
 let appMenu = remote.Menu.getApplicationMenu();
-// ECP Server 
+// ECP Server
 let ECPEnabled = storage.getItem("ECPEnabled") || "false";
 ipcRenderer.send("ECPEnabled", ECPEnabled === "true");
 setServerStatus("ECP", 8060, ECPEnabled === "true");
@@ -32,8 +32,8 @@ setServerStatus("ECP", 8060, ECPEnabled === "true");
 let telnetEnabled = storage.getItem("telnetEnabled") || "false";
 ipcRenderer.send("telnetEnabled", telnetEnabled === "true");
 setServerStatus("Telnet", 8085, telnetEnabled === "true");
-// Web Installer Server 
-let installerEnabled = storage.getItem("installerEnabled") || "true";
+// Web Installer Server
+let installerEnabled = storage.getItem("installerEnabled") || "false";
 let installerPassword = storage.getItem("installerPassword") || "rokudev";
 let installerPort = storage.getItem("installerPort") || "80";
 ipcRenderer.send("installerEnabled", installerEnabled === "true", installerPassword, installerPort);
@@ -117,7 +117,7 @@ ipcRenderer.on("toggleECP", function(event, enable, port) {
     if (enable) {
         console.log(`ECP server started listening port ${port}`);
     } else {
-        console.log("ECP server disabled."); 
+        console.log("ECP server disabled.");
     }
     appMenu.getMenuItemById("ecp-api").checked = enable;
     ECPEnabled = enable ? "true" : "false";
@@ -128,7 +128,7 @@ ipcRenderer.on("toggleTelnet", function(event, enable, port) {
     if (enable) {
         console.log(`Remote console started listening port ${port}`);
     } else {
-        console.log("Remote console server disabled."); 
+        console.log("Remote console server disabled.");
     }
     appMenu.getMenuItemById("telnet").checked = enable;
     telnetEnabled = enable ? "true" : "false";
@@ -158,6 +158,7 @@ ipcRenderer.on("copyScreenshot", function(event) {
 });
 ipcRenderer.on("console", function(event, text, error) {
     if (error) {
+        console.log(text);
         console.error(text);
     } else {
         console.log(text);
@@ -196,12 +197,12 @@ ipcRenderer.on("fileSelected", function(event, file) {
 subscribeLoader("app", (event, data) => {
     if (event === "icon") {
         const iconPath = path.join(
-            remote.app.getPath("userData"), 
+            remote.app.getPath("userData"),
             currentChannel.id + ".png"
         );
         fs.writeFileSync(iconPath, data);
     } else if (event === "reset") {
-        mainWindow.reload();        
+        mainWindow.reload();
     }
 });
 // Window Resize Event
